@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educação e Saúde - Florianópolis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-section {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .video-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 64, 175, 0.7) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-link:hover {
+            color: #3b82f6;
+            transition: 0.3s;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn-pill-glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 9999px;
+            padding: 0.75rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-pill-glass:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Modal Styles */
+        #modal-instrucoes {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .modal-content {
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        
+        #modal-instrucoes:not(.hidden) .modal-content {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- Modal de Instruções -->
+    <div id="modal-instrucoes" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-sm hidden px-4">
+        <div class="modal-content glass-card max-w-2xl w-full rounded-[2rem] shadow-2xl overflow-hidden">
+            <div class="p-8 md:p-10 space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                    <h3 class="text-2xl font-bold text-blue-700">Instruções sobre o curso</h3>
+                    <button onclick="toggleModal()" class="text-slate-400 hover:text-slate-600 transition">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 text-slate-700 leading-relaxed">
+                    <p class="font-semibold text-slate-800">Este Curso Livre é voltado para profissionais de saúde e será certificado com a carga horária de 2 horas/aula.</p>
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li>Você deve clicar no botão disponível ao lado (ou <a href="https://espfloripa.github.io/cursoslivres/" target="_blank" class="text-blue-600 underline font-medium">aqui</a>) e preencher todos os campos para se inscrever no curso no mês corrente.</li>
+                        <li>Após a inscrição realizada, você tem até o último dia do mês para responder o <strong>teste de aproveitamento</strong> disponibilizado no botão no fim da página.</li>
+                        <li>Ao responder o teste de aproveitamento coloque o nome completo e CPF conforme você colocou no link de inscrição.</li>
+                        <li>A nota de corte para aprovação é de <strong>80%</strong>.</li>
+                        <li>O teste de aproveitamento só permite uma resposta por participante, caso você não seja aprovado poderá repetir o curso no mês seguinte.</li>
+                        <li>O certificado será disponibilizado até o último dia útil do mês seguinte à finalização do curso.</li>
+                    </ul>
+                </div>
+                <div class="pt-4 flex justify-end">
+                    <button onclick="toggleModal()" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg">Entendi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navegação -->
+    <nav class="fixed top-0 w-full z-50 glass-card shadow-sm border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <span class="font-bold text-blue-600 text-lg">EAD Florianópolis</span>
+            <div class="hidden md:flex space-x-8 font-medium text-slate-600">
+                <a href="#inicio" class="nav-link">Início</a>
+                <a href="#contexto" class="nav-link">Contexto</a>
+                <a href="#porque" class="nav-link">Porquê Encaminhar</a>
+                <a href="#eja" class="nav-link">O que é a EJA</a>
+                <a href="#pratica" class="nav-link">Na Prática</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Secção Hero -->
+    <section id="inicio" class="hero-section text-white">
+        <video autoplay muted loop playsinline class="video-bg">
+            <source src="https://i.imgur.com/LstUO1D.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="max-w-4xl mx-auto text-center space-y-8 px-6 hero-content">
+            <div class="inline-block px-4 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold uppercase tracking-wider">
+                Capacitação para Profissionais de Saúde
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+                Qualificar o Acesso à Educação em Florianópolis
+            </h1>
+            <p class="text-xl text-slate-200 max-w-2xl mx-auto">
+                Transformando a rede de saúde em comunidades educadoras para promover justiça social e reduzir desigualdades.
+            </p>
+            <div class="flex flex-wrap justify-center gap-6 pt-6">
+                <button onclick="toggleModal()" class="btn-pill-glass">
+                    <i class="fas fa-layer-group text-sm"></i>
+                    Curso Livre - Instruções
+                </button>
+                <a href="https://espfloripa.github.io/cursoslivres/" target="_blank" class="btn-pill-glass">
+                    <i class="fas fa-pencil-alt text-sm"></i>
+                    Curso Livre - Inscrição
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-6xl mx-auto px-6 py-20 space-y-32">
+
+        <!-- Secção de Contexto -->
+        <section id="contexto" class="space-y-12">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4">A Educação como Determinante de Saúde</h2>
+                <div class="my-10 rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/Mrw6WljWblw" title="Analfabetos Urbanos" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <p class="text-slate-600 text-lg leading-relaxed italic">"O maior determinante da saúde não é o código genético, mas as condições em que as pessoas vivem e envelhecem."</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-6">
+                        <i class="fas fa-chart-line fa-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-4">Analfabetismo 60+</h3>
+                    <p class="text-slate-600">A taxa de analfabetismo no Brasil chega a 14,9% entre pessoas idosas, refletindo iniquidades acumuladas.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 mb-6">
+                        <i class="fas fa-map-marker-alt fa-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-4">Recorte Local</h3>
+                    <p class="text-slate-600">Em Florianópolis, 55.909 pessoas possuem Ensino Fundamental incompleto ou sem instrução.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 mb-6">
+                        <i class="fas fa-hand-holding-heart fa-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-4">Papel da Saúde</h3>
+                    <p class="text-slate-600">Profissionais de saúde são agentes fundamentais na facilitação da volta aos estudos no território.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Figura Panorama -->
+        <section class="flex justify-center">
+            <div class="w-full max-w-4xl">
+                <img src="https://i.imgur.com/LvZNHGX.png" alt="Indicadores de Educação e Saúde" onerror="this.onerror=null; this.src='https://placehold.co/800x400?text=Panorama+Educação+e+Saúde';" class="rounded-[2.5rem] shadow-xl border border-slate-200 w-full h-auto">
+            </div>
+        </section>
+
+        <!-- Porquê Encaminhar -->
+        <section id="porque" class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="order-2 md:order-1 space-y-6">
+                <h2 class="text-3xl font-bold text-slate-800">Porquê encaminhar para voltar a estudar?</h2>
+                <div class="space-y-4">
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">1</div>
+                        <div><p class="font-bold text-slate-800">Aumento de Renda</p><p class="text-slate-600 text-sm">A conclusão do fundamental na EJA eleva a renda média em até 14,9% na faixa dos 26 aos 35 anos.</p></div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">2</div>
+                        <div><p class="font-bold text-slate-800">Saúde e Autonomia</p><p class="text-slate-600 text-sm">Maior facilidade na compreensão de receitas médicas e participação social plena.</p></div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">3</div>
+                        <div><p class="font-bold text-slate-800">Dignidade Urbana</p><p class="text-slate-600 text-sm">Acesso a museus, teatros e ferramentas digitais que promovem a cidadania ativa.</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-1 md:order-2 bg-blue-600 rounded-3xl p-10 text-white relative shadow-xl">
+                <i class="fas fa-quote-left absolute top-6 right-6 text-blue-500 text-6xl opacity-30"></i>
+                <h3 class="text-xl font-semibold mb-6 italic">"E se os pacientes voltassem a estudar para melhorar não somente o seu autocuidado, mas para exercer sua cidadania plena?"</h3>
+                <hr class="border-blue-500 mb-6">
+                <p class="text-sm text-blue-100 leading-relaxed">O foco deste protocolo é o <strong>Ensino Fundamental (EJA)</strong>, mas o guia completo oferece rotas para o Ensino Médio e Superior.</p>
+            </div>
+        </section>
+
+        <!-- O que é a EJA -->
+        <section id="eja" class="space-y-12">
+            <div class="bg-white rounded-[2rem] border border-slate-100 shadow-xl overflow-hidden">
+                <div class="p-12 border-b border-slate-50 text-center">
+                    <h2 class="text-3xl font-bold text-slate-800">O que é a EJA e como funciona?</h2>
+                </div>
+                <div class="grid md:grid-cols-2">
+                    <div class="p-12 bg-slate-50 space-y-4 border-r border-slate-100">
+                        <div class="flex items-center gap-3 text-blue-600 mb-2">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span class="font-bold uppercase tracking-wider text-sm">Ensino Fundamental</span>
+                        </div>
+                        <h4 class="text-xl font-bold">Secretaria Municipal de Educação</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><i class="fas fa-check text-blue-500 mr-2"></i> Para maiores de 15 anos</li>
+                            <li><i class="fas fa-check text-blue-500 mr-2"></i> Inclui alfabetização</li>
+                            <li><i class="fas fa-check text-blue-500 mr-2"></i> Carga horária flexível</li>
+                        </ul>
+                    </div>
+                    <div class="p-12 space-y-4">
+                        <div class="flex items-center gap-3 text-indigo-600 mb-2">
+                            <i class="fas fa-university"></i>
+                            <span class="font-bold uppercase tracking-wider text-sm">Ensino Médio (CEJA)</span>
+                        </div>
+                        <h4 class="text-xl font-bold">Secretaria Estadual de Educação</h4>
+                        <ul class="space-y-3 text-slate-600 text-sm">
+                            <li><i class="fas fa-check text-indigo-500 mr-2"></i> Para maiores de 18 anos</li>
+                            <li><i class="fas fa-check text-indigo-500 mr-2"></i> Disciplinas obrigatórias e eletivas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Protocolo Prático -->
+        <section id="pratica" class="space-y-12">
+            <div class="flex items-center gap-6">
+                <div class="h-px bg-slate-200 flex-grow"></div>
+                <h2 class="text-3xl font-bold text-slate-800">Protocolo de Encaminhamento</h2>
+                <div class="h-px bg-slate-200 flex-grow"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+                    <h3 class="text-xl font-bold text-blue-700 flex items-center gap-3"><i class="fas fa-comments"></i> Abordagem</h3>
+                    <p class="bg-blue-50 p-4 rounded-xl italic">"Até que série você conseguiu estudar? Sente necessidade de alguma ajuda para ler ou escrever?"</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+                    <h3 class="text-xl font-bold text-green-700 flex items-center gap-3"><i class="fas fa-laptop-medical"></i> CELK</h3>
+                    <div class="space-y-3 text-sm">
+                        <p class="font-mono bg-slate-100 p-2 rounded">Agenda: SMS - EDUCAÇÃO JOVENS E ADULTOS (EJA)</p>
+                        <p class="font-mono bg-slate-100 p-2 rounded">Texto: Deseja voltar a estudar</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Teste de Aproveitamento e Recursos -->
+        <section class="text-center space-y-10 py-10">
+            <div class="bg-blue-50 rounded-[3rem] p-12 space-y-6 border border-blue-100">
+                <h2 class="text-3xl font-bold text-slate-800">Finalização do Curso</h2>
+                <p class="text-slate-600 max-w-xl mx-auto">Após completar todos os módulos acima, realize o teste de aproveitamento para solicitar o seu certificado.</p>
+                <div class="flex justify-center pt-4">
+                    <a href="#" class="bg-blue-600 text-white px-10 py-4 rounded-2xl font-bold hover:bg-blue-700 transition shadow-xl transform hover:scale-105 flex items-center gap-3">
+                        <i class="fas fa-clipboard-check text-xl"></i>
+                        Teste de Aproveitamento
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://docs.google.com/document/d/17sncVCK1LA0lOLwCdHJ9GJ4kLCD2D2nUZsIX31Bb-2s/edit?tab=t.0#heading=h.cq2vw03j90ex" target="_blank" class="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-xl shadow-sm hover:shadow-md transition-all flex items-center gap-3 font-semibold">
+                    <i class="fas fa-book text-blue-600"></i> Saúde de A à Z
+                </a>
+                <a href="https://apsemrevista.org/aps/article/view/303" target="_blank" class="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-xl shadow-sm hover:shadow-md transition-all flex items-center gap-3 font-semibold">
+                    <i class="fas fa-file-medical text-green-600"></i> Artigo Académico
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-16 px-6 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 text-center md:text-left">
+            <div class="space-y-4">
+                <h4 class="text-white font-bold text-xl">Comunidades Educadoras</h4>
+                <p class="text-sm">Iniciativa intersetorial entre a Secretaria Municipal de Saúde e a Secretaria Municipal de Educação de Florianópolis.</p>
+            </div>
+            <div class="space-y-4">
+                <h4 class="text-white font-bold text-sm uppercase tracking-widest">Equipe de Elaboração</h4>
+                <div class="text-sm">
+                    <p>Mayara Floss</p>
+                    <p>Augusto Garcia de Cezar</p>
+                    <p>Nulvio Lermen Junior</p>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto mt-12 pt-8 text-center text-xs opacity-50">
+            © 2025 Escola de Saúde Pública de Florianópolis. Desenvolvido para qualificação do SUS.
+        </div>
+    </footer>
+
+    <script>
+        function toggleModal() {
+            const modal = document.getElementById('modal-instrucoes');
+            modal.classList.toggle('hidden');
+            // Prevent scrolling when modal is open
+            document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
+        }
+
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-instrucoes');
+            if (event.target == modal) {
+                toggleModal();
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

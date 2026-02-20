@@ -1,30 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Educação e Saúde - Florianópolis</title>
+    <title>Curso EAD Saúde Florianópolis - Qualificando o Acesso à Educação</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        body { font-family: 'Inter', sans-serif; }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.3s ease-in;
+            opacity: 0;
         }
-
-        .hero-section {
+        .accordion-content.active {
+            max-height: 10000px;
+            opacity: 1;
+        }
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+        .rotate-icon.active {
+            transform: rotate(180deg);
+        }
+        
+        /* Estilos para o Video Background no Header */
+        .header-container {
             position: relative;
-            min-height: 80vh;
+            width: 100%;
+            min-height: 500px;
+            overflow: hidden;
             display: flex;
             align-items: center;
-            overflow: hidden;
         }
-
         .video-bg {
             position: absolute;
             top: 50%;
@@ -33,356 +42,610 @@
             min-height: 100%;
             width: auto;
             height: auto;
-            transform: translate(-50%, -50%);
             z-index: 0;
+            transform: translate(-50%, -50%);
             object-fit: cover;
         }
-
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 64, 175, 0.7) 100%);
-            z-index: 1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .nav-link:hover {
-            color: #3b82f6;
-            transition: 0.3s;
-        }
-
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-        }
-
-        .video-wrapper iframe {
+        .header-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(30, 58, 138, 0.65));
+            z-index: 1;
         }
-
-        .btn-pill-glass {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 9999px;
-            padding: 0.75rem 1.5rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: white;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .btn-pill-glass:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.5);
+        .header-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
         }
 
         /* Modal Styles */
-        #modal-instrucoes {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        
-        .modal-content {
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-        }
-        
-        #modal-instrucoes:not(.hidden) .modal-content {
-            transform: scale(1);
+        .modal-overlay.active {
+            display: flex;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="bg-slate-50 text-slate-900 pb-20">
 
     <!-- Modal de Instruções -->
-    <div id="modal-instrucoes" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-sm hidden px-4">
-        <div class="modal-content glass-card max-w-2xl w-full rounded-[2rem] shadow-2xl overflow-hidden">
-            <div class="p-8 md:p-10 space-y-6">
-                <div class="flex justify-between items-center border-b border-slate-100 pb-4">
-                    <h3 class="text-2xl font-bold text-blue-700">Instruções sobre o curso</h3>
-                    <button onclick="toggleModal()" class="text-slate-400 hover:text-slate-600 transition">
-                        <i class="fas fa-times text-xl"></i>
-                    </button>
+    <div id="modalInstrucoes" class="modal-overlay">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-2 bg-blue-100 text-blue-600 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
                 </div>
-                <div class="space-y-4 text-slate-700 leading-relaxed">
-                    <p class="font-semibold text-slate-800">Este Curso Livre é voltado para profissionais de saúde e será certificado com a carga horária de 2 horas/aula.</p>
-                    <ul class="space-y-3 list-disc pl-5">
-                        <li>Você deve clicar no botão disponível ao lado (ou <a href="https://espfloripa.github.io/cursoslivres/" target="_blank" class="text-blue-600 underline font-medium">aqui</a>) e preencher todos os campos para se inscrever no curso no mês corrente.</li>
-                        <li>Após a inscrição realizada, você tem até o último dia do mês para responder o <strong>teste de aproveitamento</strong> disponibilizado no botão no fim da página.</li>
-                        <li>Ao responder o teste de aproveitamento coloque o nome completo e CPF conforme você colocou no link de inscrição.</li>
-                        <li>A nota de corte para aprovação é de <strong>80%</strong>.</li>
-                        <li>O teste de aproveitamento só permite uma resposta por participante, caso você não seja aprovado poderá repetir o curso no mês seguinte.</li>
-                        <li>O certificado será disponibilizado até o último dia útil do mês seguinte à finalização do curso.</li>
-                    </ul>
-                </div>
-                <div class="pt-4 flex justify-end">
-                    <button onclick="toggleModal()" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg">Entendi</button>
-                </div>
+                <h2 class="text-2xl font-black text-slate-800">Instruções sobre o curso</h2>
+            </div>
+            <div class="space-y-4 text-slate-700 leading-relaxed">
+                <p>Este Curso Livre é voltado para profissionais de saúde e será certificado com a carga horária de <strong>2 horas/aula</strong>.</p>
+                <p>Você deve clicar no botão disponível ao lado (ou <a href="https://espfloripa.github.io/cursoslivres/" target="_blank" class="text-blue-600 font-bold underline">aqui</a>) e preencher todos os campos para se inscrever no curso no mês corrente.</p>
+                <p>Após a inscrição realizada, você tem até o último dia do mês para responder o teste de aproveitamento disponibilizado no botão no fim da página.</p>
+                <p>Ao responder o teste de aproveitamento coloque o nome completo e CPF conforme você colocou no link de inscrição.</p>
+                <p>A nota de corte para aprovação é de <strong>80%</strong>.</p>
+                <p>O teste de aproveitamento só permite uma resposta por participante, caso você não seja aprovado poderá repetir o curso no mês seguinte.</p>
+                <p>O certificado será disponibilizado até o último dia útil do mês seguinte à finalização do curso.</p>
+            </div>
+            <div class="mt-8">
+                <button onclick="closeModal()" class="w-full bg-slate-900 text-white font-bold py-3 rounded-xl hover:bg-black transition-colors">Entendido</button>
             </div>
         </div>
     </div>
 
-    <!-- Navegação -->
-    <nav class="fixed top-0 w-full z-50 glass-card shadow-sm border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <span class="font-bold text-blue-600 text-lg">EAD Florianópolis</span>
-            <div class="hidden md:flex space-x-8 font-medium text-slate-600">
-                <a href="#inicio" class="nav-link">Início</a>
-                <a href="#contexto" class="nav-link">Contexto</a>
-                <a href="#porque" class="nav-link">Porquê Encaminhar</a>
-                <a href="#eja" class="nav-link">O que é a EJA</a>
-                <a href="#pratica" class="nav-link">Na Prática</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Secção Hero -->
-    <section id="inicio" class="hero-section text-white">
+    <!-- Header com Fundo Animado -->
+    <header class="header-container text-white px-6 shadow-2xl">
         <video autoplay muted loop playsinline class="video-bg">
             <source src="https://i.imgur.com/LstUO1D.mp4" type="video/mp4">
+            <img src="https://i.imgur.com/LstUO1D.gif" alt="Fundo animado">
         </video>
-        <div class="hero-overlay"></div>
-        <div class="max-w-4xl mx-auto text-center space-y-8 px-6 hero-content">
-            <div class="inline-block px-4 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold uppercase tracking-wider">
-                Capacitação para Profissionais de Saúde
+        <div class="header-overlay"></div>
+        
+        <div class="max-w-4xl mx-auto header-content">
+            <!-- Bloco do ícone e texto centralizado -->
+            <div class="flex items-center justify-center gap-3 mb-8">
+                <div class="bg-blue-500/20 p-2 rounded-xl backdrop-blur-md border border-white/10">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-300"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                </div>
+                <div class="h-6 w-px bg-white/20 mx-2"></div>
+                <span class="uppercase tracking-widest text-xs font-black text-blue-200">SUS Florianópolis • EJA</span>
             </div>
-            <h1 class="text-4xl md:text-6xl font-bold leading-tight">
-                Qualificar o Acesso à Educação em Florianópolis
+            
+            <h1 class="text-3xl md:text-5xl font-black mb-10 leading-tight tracking-tight drop-shadow-2xl text-center">
+                Qualificando o Acesso à Educação de Pacientes na Rede de Florianópolis
             </h1>
-            <p class="text-xl text-slate-200 max-w-2xl mx-auto">
-                Transformando a rede de saúde em comunidades educadoras para promover justiça social e reduzir desigualdades.
-            </p>
-            <div class="flex flex-wrap justify-center gap-6 pt-6">
-                <button onclick="toggleModal()" class="btn-pill-glass">
-                    <i class="fas fa-layer-group text-sm"></i>
+            
+            <!-- Botões solicitados conforme a imagem -->
+            <div class="flex flex-wrap gap-4 items-center justify-center mb-6">
+                <button onclick="openModal()" class="flex items-center gap-3 px-6 py-4 rounded-full border border-white/40 bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all font-bold group">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-200 group-hover:scale-110 transition-transform"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
                     Curso Livre - Instruções
                 </button>
-                <a href="https://espfloripa.github.io/cursoslivres/" target="_blank" class="btn-pill-glass">
-                    <i class="fas fa-pencil-alt text-sm"></i>
+                <a href="https://espfloripa.github.io/cursoslivres/" target="_blank" class="flex items-center gap-3 px-6 py-4 rounded-full border border-white/40 bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all font-bold group">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-200 group-hover:scale-110 transition-transform"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                     Curso Livre - Inscrição
                 </a>
             </div>
+
+            <div class="flex items-center justify-center opacity-60">
+                <span class="text-[10px] uppercase font-bold tracking-[0.3em]">Acesse os conteúdos abaixo</span>
+            </div>
         </div>
-    </section>
+    </header>
 
-    <main class="max-w-6xl mx-auto px-6 py-20 space-y-32">
-
-        <!-- Secção de Contexto -->
-        <section id="contexto" class="space-y-12">
-            <div class="text-center max-w-3xl mx-auto">
-                <h2 class="text-3xl font-bold text-slate-800 mb-4">A Educação como Determinante de Saúde</h2>
-                <div class="my-10 rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/Mrw6WljWblw" title="Analfabetos Urbanos" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </div>
-                <p class="text-slate-600 text-lg leading-relaxed italic">"O maior determinante da saúde não é o código genético, mas as condições em que as pessoas vivem e envelhecem."</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-6">
-                        <i class="fas fa-chart-line fa-lg"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-4">Analfabetismo 60+</h3>
-                    <p class="text-slate-600">A taxa de analfabetismo no Brasil chega a 14,9% entre pessoas idosas, refletindo iniquidades acumuladas.</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 mb-6">
-                        <i class="fas fa-map-marker-alt fa-lg"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-4">Recorte Local</h3>
-                    <p class="text-slate-600">Em Florianópolis, 55.909 pessoas possuem Ensino Fundamental incompleto ou sem instrução.</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 mb-6">
-                        <i class="fas fa-hand-holding-heart fa-lg"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-4">Papel da Saúde</h3>
-                    <p class="text-slate-600">Profissionais de saúde são agentes fundamentais na facilitação da volta aos estudos no território.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Figura Panorama -->
-        <section class="flex justify-center">
-            <div class="w-full max-w-4xl">
-                <img src="https://i.imgur.com/LvZNHGX.png" alt="Indicadores de Educação e Saúde" onerror="this.onerror=null; this.src='https://placehold.co/800x400?text=Panorama+Educação+e+Saúde';" class="rounded-[2.5rem] shadow-xl border border-slate-200 w-full h-auto">
-            </div>
-        </section>
-
-        <!-- Porquê Encaminhar -->
-        <section id="porque" class="grid md:grid-cols-2 gap-16 items-center">
-            <div class="order-2 md:order-1 space-y-6">
-                <h2 class="text-3xl font-bold text-slate-800">Porquê encaminhar para voltar a estudar?</h2>
-                <div class="space-y-4">
-                    <div class="flex gap-4">
-                        <div class="shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">1</div>
-                        <div><p class="font-bold text-slate-800">Aumento de Renda</p><p class="text-slate-600 text-sm">A conclusão do fundamental na EJA eleva a renda média em até 14,9% na faixa dos 26 aos 35 anos.</p></div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">2</div>
-                        <div><p class="font-bold text-slate-800">Saúde e Autonomia</p><p class="text-slate-600 text-sm">Maior facilidade na compreensão de receitas médicas e participação social plena.</p></div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">3</div>
-                        <div><p class="font-bold text-slate-800">Dignidade Urbana</p><p class="text-slate-600 text-sm">Acesso a museus, teatros e ferramentas digitais que promovem a cidadania ativa.</p></div>
-                    </div>
-                </div>
-            </div>
-            <div class="order-1 md:order-2 bg-blue-600 rounded-3xl p-10 text-white relative shadow-xl">
-                <i class="fas fa-quote-left absolute top-6 right-6 text-blue-500 text-6xl opacity-30"></i>
-                <h3 class="text-xl font-semibold mb-6 italic">"E se os pacientes voltassem a estudar para melhorar não somente o seu autocuidado, mas para exercer sua cidadania plena?"</h3>
-                <hr class="border-blue-500 mb-6">
-                <p class="text-sm text-blue-100 leading-relaxed">O foco deste protocolo é o <strong>Ensino Fundamental (EJA)</strong>, mas o guia completo oferece rotas para o Ensino Médio e Superior.</p>
-            </div>
-        </section>
-
-        <!-- O que é a EJA -->
-        <section id="eja" class="space-y-12">
-            <div class="bg-white rounded-[2rem] border border-slate-100 shadow-xl overflow-hidden">
-                <div class="p-12 border-b border-slate-50 text-center">
-                    <h2 class="text-3xl font-bold text-slate-800">O que é a EJA e como funciona?</h2>
-                </div>
-                <div class="grid md:grid-cols-2">
-                    <div class="p-12 bg-slate-50 space-y-4 border-r border-slate-100">
-                        <div class="flex items-center gap-3 text-blue-600 mb-2">
-                            <i class="fas fa-graduation-cap"></i>
-                            <span class="font-bold uppercase tracking-wider text-sm">Ensino Fundamental</span>
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto -mt-10 px-4 md:px-6 relative z-20">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden mb-12">
+            
+            <!-- Seção 1: Contexto -->
+            <div class="border-b border-slate-200">
+                <button onclick="toggleAccordion(0)" class="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors focus:outline-none">
+                    <div class="flex items-center gap-4">
+                        <div class="accordion-icon-bg p-2 rounded-lg bg-slate-100 text-slate-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                         </div>
-                        <h4 class="text-xl font-bold">Secretaria Municipal de Educação</h4>
-                        <ul class="space-y-3 text-slate-600">
-                            <li><i class="fas fa-check text-blue-500 mr-2"></i> Para maiores de 15 anos</li>
-                            <li><i class="fas fa-check text-blue-500 mr-2"></i> Inclui alfabetização</li>
-                            <li><i class="fas fa-check text-blue-500 mr-2"></i> Carga horária flexível</li>
+                        <span class="text-lg font-bold text-slate-700 accordion-title">Contexto</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-icon text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div id="content-0" class="accordion-content">
+                    <div class="p-8 space-y-4 border-t border-slate-100">
+                        <p>A educação é considerada um dos direitos e determinantes de saúde mais negligenciados (The Lancet Public Health, 2020). O maior determinante da saúde humana não é o código genético, mas o código de endereçamento postal, o CEP: as condições em que as pessoas nascem, crescem, vivem e envelhecem são determinantes sociais da saúde que apontam desigualdades agravadas por gênero, raça/etnia, educação, entre outros. A educação está fortemente associada à expectativa de vida, morbidade, comportamentos de saúde, além disso, o nível educacional desempenha um papel importante na saúde, moldando oportunidades, emprego e renda (The Lancet Public Health, 2020).</p>
+                        <p>De acordo com a Pesquisa Nacional por Amostra de Domicílios Contínua de 2024, no Brasil, analfabetismo mantém uma relação direta com a idade, ou seja, quanto mais velho o grupo populacional, maior a proporção de analfabetos. Este estudo trouxe uma taxa nacional de 5,3% de analfabetismo entre pessoas de 15 anos ou mais. Porém, entre pessoas de 60 anos ou mais, essa taxa passa a ser de 14,9%, o que corresponde a 5,1 milhões de pessoas. Seguindo o recorte raça/cor, a taxa de analfabetismo entre 15 anos ou mais é de 3,1% para brancos, e de 6,9% para pretos e pardos; já entre pessoas idosas desses grupos, as taxas são de 8,1% e 21,8%, respectivamente (IBGE, 2024).</p>
+                        <p>Segundo panorama do Censo Demográfico de 2022, Florianópolis possui uma população estimada de 537.211 habitantes, com crescimento contínuo e expressivo nas últimas décadas, e um perfil demográfico marcado pelo envelhecimento populacional (IBGE, 2024). Destas, 55.909 pessoas foram identificadas sem instrução ou com Ensino Fundamental incompleto e 6.181 pessoas que não foram alfabetizadas. Seguindo a tendência nacional, quanto mais idoso o grupo populacional, maior a taxa de analfabetismo. Também, incluindo o recorte raça, há uma taxa de não alfabetizados de 1,16% entre mulheres brancas, enquanto essa taxa é de 2,82% entre mulheres pretas. Já entre homens, a taxa de homens brancos não alfabetizados é de 1,1% e a taxa de homens negros é de 2,52%.</p>
+                        
+                        <a href="https://censo2022.ibge.gov.br/panorama/" target="_blank" class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-lg font-bold hover:bg-blue-100 transition-colors border border-blue-100 my-4 text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg> Panorama da Educação em Florianópolis (IBGE)
+                        </a>
+
+                        <p>A educação deve ser compreendida como um bem público e comum, construído coletivamente, envolvendo múltiplos atores sociais e promovendo justiça social, participação democrática e desenvolvimento sustentável. Nessa abordagem, o território torna-se um ecossistema educativo. Desta forma, voltar a estudar pode se tornar uma forma de redução de desigualdades e melhoria de determinantes sociais, sendo que os profissionais de saúde da rede do município de Florianópolis têm um papel fundamental na facilitação das pessoas voltarem a estudar.</p>
+
+                        <div class="bg-slate-900 text-white p-8 rounded-2xl my-8 text-center shadow-lg border-b-4 border-blue-500 italic font-serif text-xl md:text-2xl leading-relaxed">
+                            “O maior determinante da saúde não é o código genético, mas o CEP.”
+                        </div>
+
+                        <div class="bg-amber-50 border-l-4 border-amber-600 p-5 rounded-r-xl shadow-sm my-6">
+                            <div class="flex gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-600 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                <div>
+                                    <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70">Conteúdo Audiovisual</h4>
+                                    <p class="font-bold mb-2 text-sm">Entenda melhor e assista a reportagem:</p>
+                                    <p class="mb-4 italic opacity-90 text-sm">Analfabetos urbanos: o dia a dia de quem não sabe ler e precisa se virar nas grandes cidades</p>
+                                    <a href="https://g1.globo.com/fantastico/video/analfabetos-urbanos-o-dia-a-dia-de-quem-nao-sabe-ler-e-precisa-se-virar-nas-grandes-cidades-12481045.ghtml" target="_blank" class="inline-flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-full font-black hover:bg-red-700 shadow-lg active:scale-95 transition-all text-xs">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg> Assistir no Fantástico (7min 41s)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 2: Por que encaminhar -->
+            <div class="border-b border-slate-200">
+                <button onclick="toggleAccordion(1)" class="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors focus:outline-none">
+                    <div class="flex items-center gap-4">
+                        <div class="accordion-icon-bg p-2 rounded-lg bg-slate-100 text-slate-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        </div>
+                        <span class="text-lg font-bold text-slate-700 accordion-title">Por que encaminhar pessoas para voltar a estudar?</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-icon text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div id="content-1" class="accordion-content">
+                    <div class="p-8 space-y-4 border-t border-slate-100">
+                        <p>A Declaração Universal dos Direitos Humanos, de 1948 consagrou a educação como um direito de todos, com o ensino elementar gratuito. Desde então houve um esforço para a universalização da educação básica e erradicação do analfabetismo (Felicio, 2025). Porém, o Brasil apesar de ter uma escolaridade média de 10 anos de estudos, em cada 100 pessoas com 25 anos ou mais, 45 não concluíram o Ensino Médio (IBGE, 2024).</p>
+                        <h5 class="font-black text-blue-800 uppercase text-xs tracking-widest mt-6">Impacto Socioeconômico:</h5>
+                        <p>Para quem concluiu os Anos Finais do Ensino Fundamental na EJA, a renda média é 4,6% maior do que para aqueles que pararam de estudar após concluir os anos iniciais. Esse impacto é particularmente notável para o grupo de 26 a 35 anos, com um aumento de 14,9% na renda (Felicio, 2025). Para aqueles que concluíram o ensino médio na EJA eleva a renda mensal em 6%, em média, para o grupo de 18 a 60 anos em comparação com quem parou no Ensino Fundamental. O maior impacto também é observado na faixa de 26 a 35 anos, com um aumento de 10% na renda.</p>
+                        <p>Para além do aumento da renda, o aumento da escolaridade, de forma direta ou indireta, abrange a saúde, segurança, participação social e engajamento comunitário (Felicio, 2025). A pessoa passa a acessar com mais facilidade por exemplo rotas de ônibus, a partir das aulas e visitas de campo, além de acessar à cidade como museus, teatro e outros passeios. De forma que a Educação de Jovens e Adultos (EJA) é reconhecida não apenas como política compensatória, mas como direito humano fundamental ao longo da vida, essencial para fortalecer autonomia, cidadania ativa e inclusão social.</p>
+                        <p>Ressalta-se que o uso de pictogramas para explicar receitas (desenho dos remédios e horários) por profissionais da saúde, apesar de factível em algumas situações, pode também retirar a autonomia das pessoas e a possibilidade de aprender a ler e interpretar seu próprio cuidado. Estimular os pacientes a voltarem a estudar é um dos determinantes de saúde que os profissionais podem ajudar a modificar.</p>
+
+                        <div class="mt-12 p-8 bg-indigo-900 text-indigo-50 rounded-2xl shadow-xl border-t-8 border-indigo-700 text-center font-medium italic text-xl md:text-2xl leading-relaxed">
+                            “Deve-se perguntar: e se os pacientes com baixa escolaridade voltassem a estudar para melhorar não somente seu autocuidado em saúde, mas também exercer sua cidadania plena?”
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 3: O que é a EJA -->
+            <div class="border-b border-slate-200">
+                <button onclick="toggleAccordion(2)" class="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors focus:outline-none">
+                    <div class="flex items-center gap-4">
+                        <div class="accordion-icon-bg p-2 rounded-lg bg-slate-100 text-slate-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <span class="text-lg font-bold text-slate-700 accordion-title">O que é a EJA e como ela funciona?</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-icon text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div id="content-2" class="accordion-content">
+                    <div class="p-8 space-y-4 border-t border-slate-100">
+                        <p>A Educação de Jovens e Adultos (EJA) é uma modalidade da educação básica destinada a pessoas que não tiveram acesso ou não concluíram seus estudos na idade preconizada, regulamentada pela Lei de Diretrizes e Bases da Educação Nacional (LDB), Lei nº 9.394/1996 (BRASIL, 1996). Antes da aprovação dessa lei, havia no Brasil, o ensino supletivo, que, como o nome já diz, visava suplementar a ausência de uma escolarização perdida. Essa perspectiva não considera os aprendizados que as pessoas realizam durante a vida, nos diversos contextos como no trabalho e nos movimentos sociais, por exemplo. A Educação de jovens e adultos, por outro lado, é mais ampla que o ensino. Em linhas gerais podemos dizer, que no ensino supletivo o currículo partia de conteúdos previamente definidos, com base na experiênica do ensino para crianças e adolescentes, da idade considerada regular. Na EJA, o currículo assenta-se nos contextos de vida das pessoas, suas experiências, necessidades nos contextos reais de vida.</p>
+                        <p>A LDB garante a possibilidade de conclusão do ensino fundamental (para maiores de quinze anos) e ensino médio (para maiores de dezoito anos), a partir de estratégias educacionais que levam em conta as características dos alunos, seus interesses, condições de vida e de trabalho, além de habilidades e conhecimentos que os estudantes adquiriram com suas vivências pessoais e meios informais ao longo da vida. É importante destacar que ao falarmos dessa modalidade da educação básica, dizemos "a EJA" e não "o EJA". Isso porque estamos falando da Educação nesse sentido amplo e não somente no ensino.</p>
+
+                        <h4 class="font-black text-blue-800 mt-8 mb-4 uppercase text-xs tracking-tighter flex items-center gap-2 text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Entenda as Modalidades Atuais:
+                        </h4>
+                        
+                        <div class="grid md:grid-cols-2 gap-4 mb-8">
+                            <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl shadow-sm">
+                                <p class="font-black text-blue-700 mb-2 uppercase text-[10px] tracking-widest">Ensino Fundamental (EJA)</p>
+                                <p class="text-sm leading-relaxed">Etapa que abrange do 1º ao 9º ano. Destinado a pessoas a partir de 15 anos. Dividido em alfabetização, 1º segmento (1º ao 5º ano) e 2º segmento (6º ao 9º ano). Gerido pela <strong>Secretaria Municipal de Educação</strong>.</p>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl shadow-sm">
+                                <p class="font-black text-blue-700 mb-2 uppercase text-[10px] tracking-widest">Ensino Médio (CEJA)</p>
+                                <p class="text-sm leading-relaxed">Abrange do 1º ao 3º ano. Destinado a pessoas a partir de 18 anos. Prepara para o ensino superior ou mercado de trabalho com currículo diversificado. Gerido pela <strong>Secretaria Estadual de Educação</strong>.</p>
+                            </div>
+                        </div>
+
+                        <p class="italic text-slate-600 bg-slate-50 p-6 rounded-xl border-l-4 border-slate-300 text-sm">"A pesquisa como princípio educativo estrutura o processo a partir de perguntas formuladas pelos próprios estudantes... promovendo um processo dialógico no qual os educandos se constituem como produtores de conhecimento." (Berger; Carvalho, 2017)</p>
+                        
+                        <p>Na EJA de Florianópolis, surgem temas do cotidiano como “Café”, “SUS”, “Floricultura”. Diferente do supletivo tradicional, o foco é a autonomia e cidadania. A rede municipal divide-se em oito núcleos: Centro I, II, III, Continente, Norte I, II, Sul I, II.</p>
+
+                        <div class="bg-blue-50 border-l-4 border-blue-600 p-5 rounded-r-xl shadow-sm my-6 text-sm">
+                            <div class="flex gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                <div>
+                                    <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70">Polos Ativos</h4>
+                                    <p class="font-bold mb-3">Encontre a unidade mais próxima de sua Unidade de Saúde:</p>
+                                    <a href="https://www.pmf.sc.gov.br/entidades/educacao/index.php?cms=educacao+de+jovens+e+adultos+++eja" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-blue-700 shadow-md active:scale-95 transition-all">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Ver Lista de Núcleos (PMF)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <a href="https://drive.google.com/file/d/1LuanJYRQFYzjLVmTq2lveSpa1yqd8AV0/view?usp=drive_link" target="_blank" class="flex items-center justify-between bg-indigo-600 text-white p-6 rounded-3xl font-black hover:bg-indigo-700 transition-all shadow-xl group">
+                                <span class="flex items-center gap-4 text-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-300"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                    Protocolo: EJA na Atenção Primária
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-50 group-hover:opacity-100 transition-opacity"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 4: Como conversar -->
+            <div class="border-b border-slate-200">
+                <button onclick="toggleAccordion(3)" class="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors focus:outline-none">
+                    <div class="flex items-center gap-4">
+                        <div class="accordion-icon-bg p-2 rounded-lg bg-slate-100 text-slate-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                        </div>
+                        <span class="text-lg font-bold text-slate-700 accordion-title">Como conversar sobre voltar a estudar?</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-icon text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div id="content-3" class="accordion-content">
+                    <div class="p-8 space-y-6 border-t border-slate-100">
+                        <p>Na prática clínica é importante perguntar até quando a pessoa estudou. Também se o profissional desconfiar de baixa escolaridade em uma consulta, pode perguntar de maneira respeitosa e acolhedora:</p>
+
+                        <div class="bg-emerald-50 border-2 border-emerald-200 p-8 rounded-3xl shadow-inner relative">
+                            <div class="absolute -top-4 left-10 bg-emerald-600 text-white px-4 py-1 text-[10px] font-black uppercase tracking-[0.2em] rounded-full text-center">Script de Atendimento</div>
+                            <ul class="space-y-6 text-emerald-950 font-bold text-xl md:text-2xl italic leading-relaxed">
+                                <li class="flex gap-4"><span class="text-emerald-400">“</span>Até que série você conseguiu estudar? Você chegou a estudar?<span class="text-emerald-400">”</span></li>
+                                <li class="flex gap-4"><span class="text-emerald-400">“</span>Você sente necessidade de alguma ajuda (ou apoio) para ler ou escrever?<span class="text-emerald-400">”</span></li>
+                            </ul>
+                        </div>
+
+                        <p>Oriente sobre benefícios: alimentação escolar, apoio com óculos, passe livre e outros auxílios. A matrícula na EJA em Florianópolis é contínua e pode ser feita em qualquer época do ano.</p>
+                        <p>Destaque a flexibilidade: carga horária adaptável, foco na história de vida, sem obrigatoriedade de ir todos os dias, e acolhimento para mães com crianças. O trabalho em roda e as metodologias ativas garantem acessibilidade total.</p>
+
+                        <div class="bg-emerald-50 border-l-4 border-emerald-600 p-5 rounded-r-xl shadow-sm my-6 text-sm">
+                            <div class="flex gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-600 shrink-0"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                                <div>
+                                    <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70">Dica prática</h4>
+                                    <p class="text-base leading-relaxed">Lembre-se: por vezes não será no primeiro contato que a pessoa terá abertura. Mantenha o diálogo acolhedor em cada consulta.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 5: Como encaminhar -->
+            <div class="border-b border-slate-200">
+                <button onclick="toggleAccordion(4)" class="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors focus:outline-none">
+                    <div class="flex items-center gap-4">
+                        <div class="accordion-icon-bg p-2 rounded-lg bg-slate-100 text-slate-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/></svg>
+                        </div>
+                        <span class="text-lg font-bold text-slate-700 accordion-title">Como encaminhar pessoas para voltar a estudar?</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-icon text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div id="content-4" class="accordion-content">
+                    <div class="p-8 space-y-6 border-t border-slate-100">
+                        <p>O <a href="https://drive.google.com/file/d/1E-pOItdQzjDVWp0DRKNs-YJ3NPHSG7AR/view" target="_blank" class="text-blue-600 font-black underline decoration-2 underline-offset-4 hover:text-blue-800">Protocolo de acesso à EJA (Ensino Fundamental)</a> é uma ação intersetorial entre as Secretarias Municipais de Saúde e Educação de Florianópolis.</p>
+
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm">
+                                <h5 class="font-black text-blue-700 text-xs mb-3 uppercase tracking-widest flex items-center gap-2 text-xs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Público-Alvo
+                                </h5>
+                                <p class="text-sm">Jovens (15+), adultos e idosos não alfabetizados ou com Ensino Fundamental incompleto.</p>
+                            </div>
+                            <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm">
+                                <h5 class="font-black text-blue-700 text-xs mb-3 uppercase tracking-widest flex items-center gap-2 text-xs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Profissionais
+                                </h5>
+                                <p class="text-sm">Qualquer profissional da APS de nível técnico ou superior pode realizar o encaminhamento.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-600 text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+                            <h4 class="font-black mb-8 flex items-center gap-3 text-lg uppercase tracking-tight relative z-10">Fluxo no Sistema CELK</h4>
+                            <div class="space-y-8 relative z-10">
+                                <div class="bg-white/10 backdrop-blur-md p-5 rounded-xl border border-white/20">
+                                    <p class="text-[10px] font-black uppercase text-blue-200 mb-2">1. Localizar Agenda</p>
+                                    <p class="font-mono text-xs md:text-sm font-black tracking-tight">SMS - EDUCAÇÃO JOVENS E ADULTOS (EJA) ENSINO FUNDAMENTAL</p>
+                                </div>
+                                <div class="bg-white/10 backdrop-blur-md p-5 rounded-xl border border-white/20">
+                                    <p class="text-[10px] font-black uppercase text-blue-200 mb-2">2. Campo de Descrição</p>
+                                    <p class="font-mono text-xl md:text-2xl italic font-black">“Deseja voltar a estudar”</p>
+                                    <p class="text-[10px] mt-4 opacity-70 italic font-bold">* A fila não é regulada, portanto seja sucinto.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-amber-50 border-l-4 border-amber-600 p-5 rounded-r-xl shadow-sm my-6 text-sm">
+                            <div class="flex gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-600 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                <div>
+                                    <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70">Atenção: Outros Níveis</h4>
+                                    <p class="font-medium">Para Ensino Médio ou Superior, ofereça o guia "Saúde de A à Z":</p>
+                                    <a href="https://docs.google.com/document/d/17sncVCK1LA0lOLwCdHJ9GJ4kLCD2D2nUZsIX31Bb-2s/edit?tab=t.0#heading=h.cq2vw03j90ex" target="_blank" class="inline-flex items-center gap-2 mt-4 text-blue-800 font-black hover:underline transition-all text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg> Acessar Guia de A à Z
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 text-white p-6 rounded-2xl flex flex-wrap items-center justify-between gap-6">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-blue-600 w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl text-white">CID</div>
+                                <div>
+                                    <span class="text-3xl font-mono font-black tracking-tighter text-blue-400 uppercase">Z55.0</span>
+                                    <p class="text-[10px] uppercase opacity-40 font-black tracking-widest mt-1 text-white text-center">Analfabetismo / Baixa escolaridade</p>
+                                </div>
+                            </div>
+                            <div class="text-xs italic text-slate-500 font-medium">(Opcional para estatísticas)</div>
+                        </div>
+
+                        <!-- Tutorial CELK Video Integrado -->
+                        <div class="space-y-4">
+                            <h4 class="font-black text-slate-700 uppercase text-[10px] tracking-widest flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg> Vídeo Tutorial: Registro no Sistema CELK
+                            </h4>
+                            <div class="aspect-video bg-slate-100 rounded-3xl overflow-hidden shadow-lg border border-slate-200">
+                                <iframe 
+                                    class="w-full h-full" 
+                                    src="https://www.youtube.com/embed/v3L74Y-C2So" 
+                                    title="Tutorial CELK - EJA Florianópolis" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 6: Após encaminhamento -->
+            <div class="border-b border-slate-200">
+                <button onclick="toggleAccordion(5)" class="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors focus:outline-none">
+                    <div class="flex items-center gap-4">
+                        <div class="accordion-icon-bg p-2 rounded-lg bg-slate-100 text-slate-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                        </div>
+                        <span class="text-lg font-bold text-slate-700 accordion-title">Após o encaminhamento</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-icon text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div id="content-5" class="accordion-content">
+                    <div class="p-8 space-y-6 border-t border-slate-100">
+                        <p class="text-lg font-medium leading-relaxed">Um professor da EJA do polo mais próximo entrará em contato para agendar um acolhimento. <strong>É vital que o telefone do paciente esteja atualizado no cadastro do sistema!</strong></p>
+
+                        <div class="bg-indigo-50 border-l-4 border-indigo-600 p-5 rounded-r-xl shadow-sm my-6 text-sm">
+                            <div class="flex gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600 shrink-0"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/></svg>
+                                <div class="w-full text-sm">
+                                    <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70">Dados da Iniciativa (2025)</h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 mt-4">
+                                        <div class="bg-white/60 p-6 rounded-2xl border border-indigo-100 text-center shadow-sm">
+                                            <p class="text-5xl font-black text-indigo-900 leading-none text-4xl">55</p>
+                                            <p class="text-[10px] font-black uppercase opacity-60 tracking-[0.2em] mt-3 text-slate-900 text-[8px]">Encaminhamentos</p>
+                                        </div>
+                                        <div class="bg-white/60 p-6 rounded-2xl border border-indigo-100 text-center shadow-sm">
+                                            <p class="text-5xl font-black text-indigo-900 leading-none text-4xl">80%</p>
+                                            <p class="text-[10px] font-black uppercase opacity-60 tracking-[0.2em] mt-3 text-slate-900 text-[8px]">Contatados</p>
+                                        </div>
+                                        <div class="bg-white/60 p-6 rounded-2xl border border-indigo-100 text-center shadow-sm">
+                                            <p class="text-5xl font-black text-indigo-900 leading-none text-4xl">34</p>
+                                            <p class="text-[10px] font-black uppercase opacity-60 tracking-[0.2em] mt-3 text-slate-900 text-[8px]">Matriculados</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs font-bold opacity-80 italic leading-snug">Dados de Junho a Outubro de 2025. Esses indicadores reforçam a eficácia da saúde como porta de entrada para a educação plena.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 7: Comunidades que educam -->
+            <div class="border-b border-slate-200">
+                <button onclick="toggleAccordion(6)" class="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors focus:outline-none">
+                    <div class="flex items-center gap-4">
+                        <div class="accordion-icon-bg p-2 rounded-lg bg-slate-100 text-slate-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <span class="text-lg font-bold text-slate-700 accordion-title">Comunidades que educam e engajamento comunitário</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-icon text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div id="content-6" class="accordion-content">
+                    <div class="p-8 space-y-4 border-t border-slate-100">
+                        <p>O concept de comunidades que educam (UNESCO) compreende a educação como um processo contínuo que ocorre em múltiplos espaços do território: culturais, institucionais e comunitários.</p>
+                        <p>Exemplo prático de sucesso: O polo avançado de EJA criado dentro do <strong>CS Itacorubi</strong> facilitou drasticamente o retorno aos estudos para aquela comunidade. O engajamento transforma o cuidado em emancipação.</p>
+                        
+                        <div class="bg-blue-600 text-white p-6 rounded-2xl shadow-lg my-8">
+                            <p class="font-black uppercase text-xs tracking-widest mb-2 opacity-80 underline underline-offset-4 decoration-2">Incentivo à Rede:</p>
+                            <p class="text-lg font-bold">Identifique núcleos em seu território e avalie com sua equipe a abertura de novos polos avançados!</p>
+                        </div>
+
+                        <a href="https://www.pmf.sc.gov.br/entidades/educacao/index.php?cms=educacao+de+jovens+e+adultos+++eja" target="_blank" class="flex items-center gap-4 bg-slate-900 text-white px-8 py-5 rounded-2xl font-black hover:bg-black transition-all shadow-2xl w-full justify-center group text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:scale-125 transition-transform text-blue-400"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                            Responsáveis e Núcleos de Florianópolis
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 8: Sugestões -->
+            <div class="border-b border-slate-200">
+                <button onclick="toggleAccordion(7)" class="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors focus:outline-none">
+                    <div class="flex items-center gap-4">
+                        <div class="accordion-icon-bg p-2 rounded-lg bg-slate-100 text-slate-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        </div>
+                        <span class="text-lg font-bold text-slate-700 accordion-title">Sugestões para aprofundar o tema</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-icon text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div id="content-7" class="accordion-content">
+                    <div class="p-8 space-y-4 border-t border-slate-100">
+                        <div class="grid gap-4">
+                            <a href="https://docs.google.com/document/d/17sncVCK1LA0lOLwCdHJ9GJ4kLCD2D2nUZsIX31Bb-2s/edit?tab=t.0#heading=h.cq2vw03j90ex" target="_blank" class="flex items-center justify-between p-5 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-white hover:border-blue-400 hover:shadow-lg transition-all group">
+                                <span class="font-black text-slate-700 group-hover:text-blue-800 uppercase text-[10px] tracking-widest">Saúde de A à Z - Quer voltar a estudar?</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-blue-600 transition-colors"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                            </a>
+                            <a href="https://apsemrevista.org/aps/article/view/303" target="_blank" class="flex items-center justify-between p-5 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-white hover:border-blue-400 hover:shadow-lg transition-all group">
+                                <span class="font-black text-slate-700 group-hover:text-blue-800 uppercase text-[10px] tracking-widest">Artigo: Voltar a estudar é uma questão de saúde?</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-blue-600 transition-colors"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                            </a>
+                            <a href="https://drive.google.com/file/d/1E-pOItdQzjDVWp0DRKNs-YJ3NPHSG7AR/view" target="_blank" class="flex items-center justify-between p-5 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-white hover:border-blue-400 hover:shadow-lg transition-all group">
+                                <span class="font-black text-slate-700 group-hover:text-blue-800 uppercase text-[10px] tracking-widest">Protocolo Municipal de Acesso à EJA (PDF)</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-blue-600 transition-colors"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 9: Referências -->
+            <div class="border-b border-slate-200">
+                <button onclick="toggleAccordion(8)" class="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors focus:outline-none">
+                    <div class="flex items-center gap-4">
+                        <div class="accordion-icon-bg p-2 rounded-lg bg-slate-100 text-slate-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        </div>
+                        <span class="text-lg font-bold text-slate-700 accordion-title">Referências</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-icon text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div id="content-8" class="accordion-content">
+                    <div class="p-8 space-y-4 border-t border-slate-100 text-[10px] md:text-[11px] text-slate-500 font-mono leading-relaxed bg-slate-50">
+                        <p>ARROYO, M. Educação de jovens-adultos: um campo de direitos e de responsabilidade pública. In: Diálogos na educação de jovens e adultos. Autentica, 2005.</p>
+                        <p>BERGER, D. G.; CARVALHO, S. S. L. A pesquisa como princípio educativo na EJA na Rede Municipal de Florianópolis. In: Formação e práticas na educação de jovens e adultos. Ação Educativa, 2017.</p>
+                        <p>BRASIL. Lei nº 9.394/1996. Lei de Diretrizes e Bases da Educação Nacional. 1996.</p>
+                        <p>FELICIO, F. A Educação que transforma vidas adultas. Aeroestúdio, 2025.</p>
+                        <p>FLOSS, M. et al. Voltar a estudar é uma questão de saúde? APS e EJA em Florianópolis-SC. APSEmRevista, 2023.</p>
+                        <p>IBGE. Panorama do Censo 2022. &lt;https://censo2022.ibge.gov.br/panorama/&gt;.</p>
+                        <p>THE LANCET PUBLIC HEALTH. Education: a neglected social determinant of health. v. 5, n. 7, 2020.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé Institucional -->
+        <footer class="mt-24">
+            <div class="bg-slate-200/40 backdrop-blur-sm p-8 md:p-12 rounded-[2rem] border border-slate-200 shadow-inner relative overflow-hidden text-center sm:text-left">
+                <!-- SVG Decorativo em BG -->
+                <div class="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-900"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                </div>
+                
+                <p class="mb-8 font-black text-slate-900 text-xs tracking-[0.3em] border-b border-slate-300 pb-6 uppercase">
+                    © Prefeitura Municipal de Florianópolis 2026
+                </p>
+                
+                <h5 class="font-black text-slate-800 mb-10 uppercase tracking-widest text-[10px] opacity-60 flex items-center justify-center sm:justify-start gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Organização: Escola de Saúde Pública de Florianópolis (ESP Floripa)
+                </h5>
+                
+                <div class="grid md:grid-cols-2 gap-12 relative z-10">
+                    <div class="bg-white/50 p-6 rounded-3xl border border-white/60 shadow-sm">
+                        <p class="font-black text-slate-900 text-xs mb-6 uppercase tracking-widest text-blue-700 text-xs">Equipe Técnica e Autoria</p>
+                        <ul class="space-y-4 text-xs font-medium">
+                            <li class="flex flex-col">
+                                <span class="font-black text-slate-800 text-sm">Mayara Floss</span> 
+                                <span class="opacity-60 font-bold uppercase tracking-tighter text-[10px]">Médica de Família e Comunidade (CS Itacorubi)</span>
+                            </li>
+                            <li class="flex flex-col">
+                                <span class="font-black text-slate-800 text-sm">Augusto Garcia de Cezar</span> 
+                                <span class="opacity-60 font-bold uppercase tracking-tighter text-[10px]">Médico de Família e Comunidade</span>
+                            </li>
+                            <li class="flex flex-col">
+                                <span class="font-black text-slate-800 text-sm">Daniel Godinho Berger</span> 
+                                <span class="opacity-60 font-bold uppercase tracking-tighter text-[10px]">Fórum de EJA de Santa Catarina</span>
+                            </li>
                         </ul>
                     </div>
-                    <div class="p-12 space-y-4">
-                        <div class="flex items-center gap-3 text-indigo-600 mb-2">
-                            <i class="fas fa-university"></i>
-                            <span class="font-bold uppercase tracking-wider text-sm">Ensino Médio (CEJA)</span>
+                    <div class="flex flex-col justify-end text-right">
+                        <div class="mt-8 flex justify-center sm:justify-end gap-2">
+                            <div class="w-8 h-1 bg-blue-500 rounded-full"></div>
+                            <div class="w-4 h-1 bg-indigo-300 rounded-full"></div>
                         </div>
-                        <h4 class="text-xl font-bold">Secretaria Estadual de Educação</h4>
-                        <ul class="space-y-3 text-slate-600 text-sm">
-                            <li><i class="fas fa-check text-indigo-500 mr-2"></i> Para maiores de 18 anos</li>
-                            <li><i class="fas fa-check text-indigo-500 mr-2"></i> Disciplinas obrigatórias e eletivas</li>
-                        </ul>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Protocolo Prático -->
-        <section id="pratica" class="space-y-12">
-            <div class="flex items-center gap-6">
-                <div class="h-px bg-slate-200 flex-grow"></div>
-                <h2 class="text-3xl font-bold text-slate-800">Protocolo de Encaminhamento</h2>
-                <div class="h-px bg-slate-200 flex-grow"></div>
-            </div>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
-                    <h3 class="text-xl font-bold text-blue-700 flex items-center gap-3"><i class="fas fa-comments"></i> Abordagem</h3>
-                    <p class="bg-blue-50 p-4 rounded-xl italic">"Até que série você conseguiu estudar? Sente necessidade de alguma ajuda para ler ou escrever?"</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
-                    <h3 class="text-xl font-bold text-green-700 flex items-center gap-3"><i class="fas fa-laptop-medical"></i> CELK</h3>
-                    <div class="space-y-3 text-sm">
-                        <p class="font-mono bg-slate-100 p-2 rounded">Agenda: SMS - EDUCAÇÃO JOVENS E ADULTOS (EJA)</p>
-                        <p class="font-mono bg-slate-100 p-2 rounded">Texto: Deseja voltar a estudar</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Teste de Aproveitamento e Recursos -->
-        <section class="text-center space-y-10 py-10">
-            <div class="bg-blue-50 rounded-[3rem] p-12 space-y-6 border border-blue-100">
-                <h2 class="text-3xl font-bold text-slate-800">Finalização do Curso</h2>
-                <p class="text-slate-600 max-w-xl mx-auto">Após completar todos os módulos acima, realize o teste de aproveitamento para solicitar o seu certificado.</p>
-                <div class="flex justify-center pt-4">
-                    <a href="#" class="bg-blue-600 text-white px-10 py-4 rounded-2xl font-bold hover:bg-blue-700 transition shadow-xl transform hover:scale-105 flex items-center gap-3">
-                        <i class="fas fa-clipboard-check text-xl"></i>
-                        Teste de Aproveitamento
-                    </a>
-                </div>
-            </div>
-
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="https://docs.google.com/document/d/17sncVCK1LA0lOLwCdHJ9GJ4kLCD2D2nUZsIX31Bb-2s/edit?tab=t.0#heading=h.cq2vw03j90ex" target="_blank" class="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-xl shadow-sm hover:shadow-md transition-all flex items-center gap-3 font-semibold">
-                    <i class="fas fa-book text-blue-600"></i> Saúde de A à Z
-                </a>
-                <a href="https://apsemrevista.org/aps/article/view/303" target="_blank" class="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-xl shadow-sm hover:shadow-md transition-all flex items-center gap-3 font-semibold">
-                    <i class="fas fa-file-medical text-green-600"></i> Artigo Académico
-                </a>
-            </div>
-        </section>
-
+        </footer>
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-16 px-6 border-t border-slate-800">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 text-center md:text-left">
-            <div class="space-y-4">
-                <h4 class="text-white font-bold text-xl">Comunidades Educadoras</h4>
-                <p class="text-sm">Iniciativa intersetorial entre a Secretaria Municipal de Saúde e a Secretaria Municipal de Educação de Florianópolis.</p>
-            </div>
-            <div class="space-y-4">
-                <h4 class="text-white font-bold text-sm uppercase tracking-widest">Equipe de Elaboração</h4>
-                <div class="text-sm">
-                    <p>Mayara Floss</p>
-                    <p>Augusto Garcia de Cezar</p>
-                    <p>Nulvio Lermen Junior</p>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-6xl mx-auto mt-12 pt-8 text-center text-xs opacity-50">
-            © 2025 Escola de Saúde Pública de Florianópolis. Desenvolvido para qualificação do SUS.
-        </div>
-    </footer>
-
     <script>
-        function toggleModal() {
-            const modal = document.getElementById('modal-instrucoes');
-            modal.classList.toggle('hidden');
-            // Prevent scrolling when modal is open
-            document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
+        function openModal() {
+            document.getElementById('modalInstrucoes').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Previne scroll
         }
 
-        // Close modal when clicking outside content
+        function closeModal() {
+            document.getElementById('modalInstrucoes').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fecha modal ao clicar fora dele
         window.onclick = function(event) {
-            const modal = document.getElementById('modal-instrucoes');
+            let modal = document.getElementById('modalInstrucoes');
             if (event.target == modal) {
-                toggleModal();
+                closeModal();
             }
         }
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const targetId = this.getAttribute('href');
-                if (targetId.startsWith('#')) {
-                    e.preventDefault();
-                    const target = document.querySelector(targetId);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
+        function toggleAccordion(index) {
+            const content = document.getElementById(`content-${index}`);
+            const button = content.previousElementSibling;
+            const icon = button.querySelector('.rotate-icon');
+            const iconBg = button.querySelector('.accordion-icon-bg');
+            const title = button.querySelector('.accordion-title');
+
+            const isActive = content.classList.contains('active');
+            
+            document.querySelectorAll('.accordion-content').forEach((el, i) => {
+                el.classList.remove('active');
+                const btn = el.previousElementSibling;
+                const rIcon = btn.querySelector('.rotate-icon');
+                const rIconBg = btn.querySelector('.accordion-icon-bg');
+                const rTitle = btn.querySelector('.accordion-title');
+                
+                if (rIcon) rIcon.classList.remove('active');
+                if (rIconBg) {
+                    rIconBg.classList.remove('bg-blue-600', 'text-white');
+                    rIconBg.classList.add('bg-slate-100', 'text-slate-500');
+                }
+                if (rTitle) {
+                    rTitle.classList.remove('text-blue-600');
+                    rTitle.classList.add('text-slate-700');
                 }
             });
-        });
+
+            if (!isActive) {
+                content.classList.add('active');
+                if (icon) icon.classList.add('active');
+                if (iconBg) {
+                    iconBg.classList.remove('bg-slate-100', 'text-slate-500');
+                    iconBg.classList.add('bg-blue-600', 'text-white');
+                }
+                if (title) {
+                    title.classList.remove('text-slate-700');
+                    title.classList.add('text-blue-600');
+                }
+            }
+        }
     </script>
 </body>
 </html>

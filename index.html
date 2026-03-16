@@ -120,6 +120,7 @@
         <div class="header-overlay"></div>
         
         <div class="max-w-4xl mx-auto header-content">
+            <!-- Bloco do ícone e texto centralizado -->
             <div class="flex items-center justify-center gap-3 mb-8">
                 <div class="bg-blue-500/20 p-2 rounded-xl backdrop-blur-md border border-white/10">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-300"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
@@ -133,11 +134,11 @@
             </h1>
             
             <div class="flex flex-wrap gap-4 items-center justify-center mb-6">
-                <button onclick="openModal()" class="flex items-center gap-3 px-6 py-4 rounded-full border border-white/40 bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all font-bold group text-sm">
+                <button onclick="openModal()" class="flex items-center gap-3 px-6 py-4 rounded-full border border-white/40 bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all font-bold group text-sm text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-200 group-hover:scale-110 transition-transform"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
                     Curso Livre - Instruções
                 </button>
-                <a href="https://espfloripa.github.io/cursoslivres/" target="_blank" class="flex items-center gap-3 px-6 py-4 rounded-full border border-white/40 bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all font-bold group text-sm">
+                <a href="https://espfloripa.github.io/cursoslivres/" target="_blank" class="flex items-center gap-3 px-6 py-4 rounded-full border border-white/40 bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all font-bold group text-sm text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-200 group-hover:scale-110 transition-transform"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                     Curso Livre - Inscrição
                 </a>
@@ -202,13 +203,20 @@
                         <div class="bg-amber-50 border-l-4 border-amber-600 p-5 rounded-r-xl shadow-sm my-6">
                             <div class="flex gap-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-600 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                <div>
+                                <div class="space-y-3">
                                     <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70 text-amber-800">Conteúdo Audiovisual</h4>
                                     <p class="font-bold mb-2 text-sm">Entenda melhor e assista a reportagem:</p>
-                                    <p class="mb-4 italic opacity-90 text-sm">Analfabetos urbanos: o dia a dia de quem não sabe ler e precisa se virar nas grandes cidades</p>
-                                    <a href="https://g1.globo.com/fantastico/video/analfabetos-urbanos-o-dia-a-dia-de-quem-nao-sabe-ler-e-precisa-se-virar-nas-grandes-cidades-12481045.ghtml" target="_blank" class="inline-flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-full font-black hover:bg-red-700 shadow-lg active:scale-95 transition-all text-xs">
+                                    <p class="italic opacity-90 text-sm">Analfabetos urbanos: o dia a dia de quem não sabe ler e precisa se virar nas grandes cidades</p>
+                                    <a href="https://g1.globo.com/fantastico/video/analfabetos-urbanos-o-dia-a-dia-de-quem-nao-sabe-ler-e-precisa-se-virar-nas-grandes-cidades-12481045.ghtml" target="_blank" class="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full font-black hover:bg-red-700 shadow-lg active:scale-95 transition-all text-[11px]">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg> Assistir no Fantástico (7min 41s)
                                     </a>
+                                    <div class="pt-2 border-t border-amber-200">
+                                        <p class="text-sm italic mb-2">Leia a matéria da repórter Cláudia Collucci na Folha de S.Paulo:</p>
+                                        <a href="https://drive.google.com/file/d/13PG5sWcVeX8hPQ7b8cLmubMn_sbW1lzy/view?usp=share_link" target="_blank" class="text-blue-700 font-bold hover:underline text-sm flex items-center gap-1 italic">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                                            "Médicos de família prescrevem volta aos estudos como tratamento de pacientes"
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -239,12 +247,27 @@
                             “O profissional de saúde deve se perguntar: e se os pacientes com baixa escolaridade voltassem a estudar para melhorar não somente seu autocuidado em saúde, mas também exercer sua cidadania plena?”
                         </div>
 
+                        <!-- Novo Conteúdo Audiovisual Solicitado -->
+                        <div class="bg-blue-50 border-l-4 border-blue-600 p-5 rounded-r-xl shadow-sm my-6">
+                            <div class="flex gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 shrink-0"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+                                <div>
+                                    <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70 text-blue-800 text-[11px]">Conteúdo Audiovisual</h4>
+                                    <p class="text-sm mb-3">Assista a reportagem sobre como voltar a estudar pode ajudar a saúde mental:</p>
+                                    <a href="https://g1.globo.com/fantastico/video/medicos-recomendam-estudos-para-idosos-cuidarem-da-mente-12481045.ghtml" target="_blank" class="inline-flex items-center gap-2 text-blue-700 font-bold hover:underline text-sm italic">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                                        Médicos recomendam estudos para idosos cuidarem da mente
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="bg-amber-100 border-l-4 border-amber-600 p-6 rounded-r-xl shadow-md my-8 text-sm">
                             <div class="flex gap-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-700 shrink-0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                                 <div class="text-sm">
                                     <h4 class="font-black mb-1 uppercase text-xs tracking-widest text-amber-900">Atenção!</h4>
-                                    <p class="text-amber-900 leading-relaxed">O foco deste treinamento e do protocolo municipal é o encaminhamento para o <strong>ensino fundamental - Educação de Jovens e Adultos (EJA)</strong>, porém neste <a href="https://docs.google.com/document/d/17sncVCK1LA0lOLwCdHJ9GJ4kLCD2D2nUZsIX31Bb-2s/edit?tab=t.0#heading=h.cq2vw03j90ex" target="_blank" class="font-black underline">Saúde de A à Z - Quer voltar a estudar?</a> você encontra os benefícios de os pacientes voltarem a estudar e tem instruções para o ensino médio e ensino superior público e gratuito.</p>
+                                    <p class="text-amber-900 leading-relaxed text-xs md:text-sm">O foco deste treinamento e do protocolo municipal é o encaminhamento para o <strong>ensino fundamental - Educação de Jovens e Adultos (EJA)</strong>, porém neste <a href="https://docs.google.com/document/d/17sncVCK1LA0lOLwCdHJ9GJ4kLCD2D2nUZsIX31Bb-2s/edit?tab=t.0#heading=h.cq2vw03j90ex" target="_blank" class="font-black underline">Saúde de A à Z - Quer voltar a estudar?</a> você encontra os benefícios de os pacientes voltarem a estudar e tem instruções para o ensino médio e ensino superior público e gratuito.</p>
                                 </div>
                             </div>
                         </div>
@@ -282,7 +305,7 @@
                             </div>
                         </div>
 
-                        <div class="space-y-4 text-slate-700 leading-relaxed">
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-sm md:text-base">
                             <p>A EJA da rede municipal de ensino oferece o curso para quem pretende aprender a ler e a escrever ou concluir os estudos do ensino fundamental. O curso é dividido em primeiro segmento (equivalente aos anos iniciais - antigo primário) e segundo segmento (equivalente aos anos finais - antigo ginásio).</p>
                             
                             <p>A EJA se configura com um campo que considera os sujeitos em seus tempos de vida na juventude e na vida adulta e necessita situá-los nos modos concretos em que vivem em relação ao direito à educação, ao conhecimento, à cultura, à memória, à identidade, à formação e ao desenvolvimento pleno, conforme previsto na lei de diretrizes e bases da educação nacional, o que implica na necessidade de compreender quem são esses jovens e adultos (Arroyo, 2005).</p>
@@ -317,7 +340,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-icon text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
                 </button>
                 <div id="content-4" class="accordion-content">
-                    <div class="p-8 space-y-6 border-t border-slate-100">
+                    <div class="p-8 space-y-6 border-t border-slate-100 text-sm md:text-base">
                         <p>Na prática clínica é importante perguntar até quando a pessoa estudou. Também se o profissional desconfiar de baixa escolaridade em uma consulta, pode perguntar de maneira respeitosa e acolhedora:</p>
 
                         <div class="bg-emerald-50 border-2 border-emerald-200 p-8 rounded-3xl shadow-inner relative">
@@ -349,7 +372,7 @@
                 </button>
                 <div id="content-5" class="accordion-content">
                     <div class="p-8 space-y-6 border-t border-slate-100">
-                        <p class="leading-relaxed text-sm md:text-base">Reconhecendo a educação como um determinante social da saúde e o potencial da Atenção Primária à Saúde (APS) como espaço de identificação de necessidades sociais, foi desenvolvido no município de Florianópolis o <a href="https://drive.google.com/file/d/1E-pOItdQzjDVWp0DRKNs-YJ3NPHSG7AR/view" target="_blank" class="text-blue-600 font-black underline decoration-2 underline-offset-4 hover:text-blue-800">Protocolo de acesso à Educação de Jovens e Adultos - EJA (Ensino Fundamental)</a> uma ação intersetorial entre as Secretarias Municipais de Saúde e Educação, com o objetivo de promover e facilitar o encaminhamento de usuários da APS para a EJA, ampliando o acesso ao direito à educação e contribuindo para a redução de iniquidades sociais e em saúde. O profissional pode encaminhar de forma direta via sistema Celk. Relembramos que este encaminhamento é apenas para ensino fundamental, para Ensino Médio e Ensino superior disponibilizamos mais informações no material para entregar para os pacientes <a href="https://docs.google.com/document/d/17sncVCK1LA0lOLwCdHJ9GJ4kLCD2D2nUZsIX31Bb-2s/edit?tab=t.0#heading=h.cq2vw03j90ex" target="_blank" class="font-bold underline">Saúde de A à Z - Quer voltar a estudar?</a>.</p>
+                        <p class="leading-relaxed text-sm md:text-base">Reconhecendo a educação como um determinante social da saúde e o potencial da Atenção Primária à Saúde (APS) como espaço de identificação de necessidades sociais, foi desenvolvido no município de Florianópolis o <a href="https://drive.google.com/file/d/1E-pOItdQzjDVWp0DRKNs-YJ3NPHSG7AR/view" target="_blank" class="text-blue-600 font-black underline decoration-2 underline-offset-4 hover:text-blue-800 text-sm">Protocolo de acesso à Educação de Jovens e Adultos - EJA (Ensino Fundamental)</a> uma ação intersetorial entre as Secretarias Municipais de Saúde e Educação, com o objetivo de promover e facilitar o encaminhamento de usuários da APS para a EJA, ampliando o acesso ao direito à educação e contribuindo para a redução de iniquidades sociais e em saúde. O profissional pode encaminhar de forma direta via sistema Celk. Relembramos que este encaminhamento é apenas para ensino fundamental, para Ensino Médio e Ensino superior disponibilizamos mais informações no material para entregar para os pacientes <a href="https://docs.google.com/document/d/17sncVCK1LA0lOLwCdHJ9GJ4kLCD2D2nUZsIX31Bb-2s/edit?tab=t.0#heading=h.cq2vw03j90ex" target="_blank" class="font-bold underline text-sm">Saúde de A à Z - Quer voltar a estudar?</a>.</p>
 
                         <div class="grid md:grid-cols-2 gap-4">
                             <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm">
@@ -368,13 +391,13 @@
                                 <h5 class="font-black text-blue-700 text-xs mb-3 uppercase tracking-widest flex items-center gap-2">O que escrever no encaminhamento?</h5>
                                 <p class="text-sm leading-relaxed italic">Escreva de forma sucinta apenas <span class="font-bold">“Deseja voltar a estudar”</span>. Esta fila não é regulada e por isso a descrição pode ser breve.</p>
                             </div>
-                            <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm md:col-span-2">
+                            <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm md:col-span-2 text-sm">
                                 <h5 class="font-black text-emerald-800 text-xs mb-3 uppercase tracking-widest flex items-center gap-2">Reforce os benefícios com o paciente</h5>
-                                <p class="text-sm leading-relaxed">Voltar a estudar tem benefícios como acesso à alimentação escolar, apoio com óculos, passe livre para o transporte e outros auxílios importantes. Além disso, a matrícula na EJA em Florianópolis é contínua de forma que a pessoa pode voltar a estudar em qualquer momento do ano.</p>
+                                <p class="leading-relaxed">Voltar a estudar tem benefícios como acesso à alimentação escolar, apoio com óculos, passe livre para o transporte e outros auxílios importantes. Além disso, a matrícula na EJA em Florianópolis é contínua de forma que a pessoa pode voltar a estudar em qualquer momento do ano.</p>
                             </div>
-                            <div class="p-6 bg-amber-50 rounded-2xl border border-amber-100 shadow-sm md:col-span-2">
+                            <div class="p-6 bg-amber-50 rounded-2xl border border-amber-100 shadow-sm md:col-span-2 text-sm">
                                 <h5 class="font-black text-amber-800 text-xs mb-3 uppercase tracking-widest flex items-center gap-2">Quem não encaminhar?</h5>
-                                <p class="text-sm leading-relaxed">Pessoas que finalizaram o Ensino Fundamental, mas que tem desejo de finalizar o Ensino Médio ou entrar no Ensino Superior. Para essas pode oferecer o material <a href="https://docs.google.com/document/d/17sncVCK1LA0lOLwCdHJ9GJ4kLCD2D2nUZsIX31Bb-2s/edit?tab=t.0#heading=h.cq2vw03j90ex" target="_blank" class="font-bold underline">Saúde de A à Z - Quer voltar a estudar?</a></p>
+                                <p class="leading-relaxed">Pessoas que finalizaram o Ensino Fundamental, mas que tem desejo de finalizar o Ensino Médio ou entrar no Ensino Superior. Para essas pode oferecer o material <a href="https://docs.google.com/document/d/17sncVCK1LA0lOLwCdHJ9GJ4kLCD2D2nUZsIX31Bb-2s/edit?tab=t.0#heading=h.cq2vw03j90ex" target="_blank" class="font-bold underline text-xs">Saúde de A à Z - Quer voltar a estudar?</a></p>
                             </div>
                         </div>
 
@@ -382,7 +405,7 @@
                             <div class="flex items-center gap-4">
                                 <div class="bg-blue-600 w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl text-white">CID</div>
                                 <div>
-                                    <span class="text-3xl font-mono font-black tracking-tighter text-blue-400 uppercase text-2xl md:text-3xl">Z55.0</span>
+                                    <span class="text-2xl font-mono font-black tracking-tighter text-blue-400 uppercase text-2xl md:text-3xl">Z55.0</span>
                                     <p class="text-[9px] uppercase opacity-40 font-black tracking-widest mt-1 text-white">Sugestão de CID: Analfabetismo / Baixa escolaridade</p>
                                 </div>
                             </div>
@@ -413,30 +436,40 @@
                 </button>
                 <div id="content-6" class="accordion-content">
                     <div class="p-8 space-y-6 border-t border-slate-100">
-                        <p class="text-lg font-medium leading-relaxed italic">Um professor ou professora da EJA do polo mais próximo entrará em contato para agendar um acolhimento. <strong>É vital que o telefone do paciente esteja atualizado no cadastro do sistema!</strong></p>
+                        <p class="text-lg font-medium leading-relaxed italic text-sm md:text-lg">Um professor ou professora da EJA do polo mais próximo entrará em contato para agendar um acolhimento. <strong>É vital que o telefone do paciente esteja atualizado no cadastro do sistema!</strong></p>
 
-                        <div class="bg-indigo-50 border-l-4 border-indigo-600 p-5 rounded-r-xl shadow-sm my-6 text-sm">
+                        <!-- Novo Leitura Complementar Solicitada -->
+                        <div class="bg-indigo-50 border-l-4 border-indigo-600 p-5 rounded-r-xl shadow-sm my-6">
                             <div class="flex gap-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600 shrink-0"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/></svg>
-                                <div class="w-full">
-                                    <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70">Dados da Iniciativa (2025)</h4>
-                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 mt-4">
-                                        <div class="bg-white/60 p-6 rounded-2xl border border-indigo-100 text-center shadow-sm">
-                                            <p class="text-3xl font-black text-indigo-900 leading-none">55</p>
-                                            <p class="text-[8px] font-black uppercase opacity-60 tracking-[0.2em] mt-3 text-slate-900">Encaminhamentos</p>
-                                        </div>
-                                        <div class="bg-white/60 p-6 rounded-2xl border border-indigo-100 text-center shadow-sm">
-                                            <p class="text-3xl font-black text-indigo-900 leading-none">80%</p>
-                                            <p class="text-[8px] font-black uppercase opacity-60 tracking-[0.2em] mt-3 text-slate-900">Contatados</p>
-                                        </div>
-                                        <div class="bg-white/60 p-6 rounded-2xl border border-indigo-100 text-center shadow-sm">
-                                            <p class="text-3xl font-black text-indigo-900 leading-none">34</p>
-                                            <p class="text-[8px] font-black uppercase opacity-60 tracking-[0.2em] mt-3 text-slate-900">Matriculados</p>
-                                        </div>
-                                    </div>
-                                    <p class="text-xs font-bold opacity-80 italic leading-snug">Dados de Junho a Outubro de 2025. Esses indicadores reforçam a eficácia da saúde como porta de entrada para a educação plena.</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600 shrink-0"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                                <div>
+                                    <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70 text-indigo-800 text-[11px]">Leitura complementar</h4>
+                                    <p class="text-sm mb-3">Leia o artigo "Prescrever o Retorno aos Estudos: Experiência da Criação do Protocolo de Encaminhamento para Educação de Jovens e Adultos (EJA) em Florianópolis” para se aprofundar no tema e compreender mais sobre o protocolo de encaminhamento:</p>
+                                    <a href="https://apsemrevista.org/aps/article/view/422/196" target="_blank" class="text-blue-700 font-bold hover:underline text-sm italic flex items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                                        Acessar Artigo Acadêmico
+                                    </a>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-indigo-100 shadow-sm text-sm">
+                            <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70">Dados da Iniciativa (2025)</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 mt-4">
+                                <div class="bg-indigo-50 p-6 rounded-2xl text-center shadow-sm">
+                                    <p class="text-3xl font-black text-indigo-900 leading-none">55</p>
+                                    <p class="text-[8px] font-black uppercase opacity-60 tracking-[0.2em] mt-3 text-slate-900">Encaminhamentos</p>
+                                </div>
+                                <div class="bg-indigo-50 p-6 rounded-2xl text-center shadow-sm">
+                                    <p class="text-3xl font-black text-indigo-900 leading-none">80%</p>
+                                    <p class="text-[8px] font-black uppercase opacity-60 tracking-[0.2em] mt-3 text-slate-900">Contatados</p>
+                                </div>
+                                <div class="bg-indigo-50 p-6 rounded-2xl text-center shadow-sm">
+                                    <p class="text-3xl font-black text-indigo-900 leading-none">34</p>
+                                    <p class="text-[8px] font-black uppercase opacity-60 tracking-[0.2em] mt-3 text-slate-900">Matriculados</p>
+                                </div>
+                            </div>
+                            <p class="text-xs font-bold opacity-80 italic leading-snug">Dados de Junho a Outubro de 2025. Esses indicadores reforçam a eficácia da saúde como porta de entrada para a educação plena.</p>
                         </div>
                     </div>
                 </div>
@@ -456,12 +489,31 @@
                 <div id="content-7" class="accordion-content">
                     <div class="p-8 space-y-4 border-t border-slate-100 leading-relaxed text-sm md:text-base">
                         <p>O conceito de comunidades que educam, em consonância com a perspectiva da UNESCO sobre aprendizagem ao longo da vida, compreende a educação como um processo que ultrapassa os limites da escola e se realiza em múltiplos espaços do território: culturais, sociais, institucionais e comunitários. O atributo da orientação comunitária na Atenção Primária à Saúde favorece a integração com outros pontos da rede como a educação, de forma a fortalecer vínculos entre políticas públicas.</p>
+                        
+                        <p>Surgida na América Latina há quase seis décadas, a educação popular é uma concepção teórica que se tornou pilar da saúde comunitária no Brasil, inspirando a construção do atual sistema de saúde. Baseada na valorização dos saberes e da criatividade das pessoas, mesmo as mais vulneráveis, ela promove uma abordagem integral que integra dimensões políticas e culturais ao cuidado. Assim, fortalece o protagonismo social e coloca a saúde a serviço da democracia, da justiça e da solidariedade (Vasconcelos; Vasconcelos, 2019).</p>
+
                         <p>Ao mesmo tempo, políticas de promoção da saúde, especialmente na atenção primária, favorecem permanência e sucesso na EJA e engajamento comunitário, sobretudo em contextos de vulnerabilidade social. Como por exemplo a criação de um pólo avançado de EJA (uma sala de aula) no Centro de Saúde Itacorubi, para facilitar o acesso da comunidade para voltar aos estudos. Assim, o engajamento comunitário transforma o cuidado e a aprendizagem em práticas compartilhadas, consolidando a comunidade como espaço de formação integral e emancipatória.</p>
+                        
                         <p>Inclusive ações do Programa Saúde na Escola também podem ser realizadas na EJA e convidamos profissionais da saúde a identificarem nos seus territórios os núcleos mais próximos e se necessário conversar para a abertura de novos pólos na cidade. Para dúvidas e essa semeadura orientamos entrar em contato e averiguar na lista de responsáveis e núcleos de Florianópolis.</p>
 
-                        <a href="https://www.pmf.sc.gov.br/entidades/educacao/index.php?cms=educacao+de+jovens+e+adultos+++eja" target="_blank" class="flex items-center gap-4 bg-slate-900 text-white px-8 py-5 rounded-2xl font-black hover:bg-black transition-all shadow-2xl w-full justify-center group text-sm">
+                        <!-- Novo Leitura Complementar Solicitada para Comunidades -->
+                        <div class="bg-indigo-50 border-l-4 border-indigo-600 p-5 rounded-r-xl shadow-sm my-6">
+                            <div class="flex gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600 shrink-0"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                                <div>
+                                    <h4 class="font-black mb-1 uppercase text-xs tracking-widest opacity-70 text-indigo-800 text-[11px]">Leitura complementar</h4>
+                                    <p class="text-sm mb-3">Leia o capítulo sobre educação popular e Atenção Primária à Saúde de Eymard Mourão Vasconcelos e Marcos Oliveira Dias Vasconcelos:</p>
+                                    <a href="https://drive.google.com/file/d/1TlND0QkNc8g4B9ZOSRUwUHJO_sztWDrm/view?usp=share_link" target="_blank" class="text-blue-700 font-bold hover:underline text-sm italic flex items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                                        Capítulo: Educação Popular
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="https://www.pmf.sc.gov.br/entidades/educacao/index.php?cms=educacao+de+jovens+e+adultos+++eja" target="_blank" class="flex items-center gap-4 bg-slate-900 text-white px-8 py-5 rounded-2xl font-black hover:bg-black transition-all shadow-2xl w-full justify-center group text-xs md:text-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:scale-125 transition-transform text-blue-400"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                            Lista de Responsáveis e Núcleos de Florianópolis
+                            Responsáveis e Núcleos de Florianópolis
                         </a>
                     </div>
                 </div>
@@ -514,10 +566,12 @@
                         <p>ARROYO, M. Educação de jovens-adultos: um campo de direitos e de responsabilidade pública. In: Diálogos na educação de jovens e adultos. Autentica, 2005.</p>
                         <p>BERGER, D. G.; CARVALHO, S. S. L. A pesquisa como princípio educativo na EJA na Rede Municipal de Florianópolis. In: Formação e práticas na educação de jovens e adultos. Ação Educativa, 2017.</p>
                         <p>BRASIL. Lei nº 9.394/1996. Lei de Diretrizes e Bases da Educação Nacional. 1996.</p>
+                        <p>CEZAR, Augusto Garcia de et al. Prescrever o Retorno aos Estudos: Experiência da Criação do Protocolo de Encaminhamento para Educação de Jovens e Adultos (EJA) em Florianópolis. APS EM REVISTA, v. 8, n. 1, p. 339–344, 10 mar. 2026.</p>
                         <p>FELICIO, F. A Educação que transforma vidas adultas. Aeroestúdio, 2025.</p>
                         <p>FLOSS, M. et al. Voltar a estudar é uma questão de saúde? APS e EJA em Florianópolis-SC. APSEmRevista, 2023.</p>
                         <p>IBGE. Panorama do Censo 2022. &lt;https://censo2022.ibge.gov.br/panorama/&gt;.</p>
                         <p>THE LANCET PUBLIC HEALTH. Education: a neglected social determinant of health. v. 5, n. 7, 2020.</p>
+                        <p>VASCONCELOS, Eymard Mourão; VASCONCELOS, Marcos Oliveira Dias. Educação Popular. In: Tratado de Medicina de Família e Comunidade. [S.l.]: Gustavo Gusso, José Mauro Ceratti Lopes, Lêda Chaves Dias, 2019. v. 1.</p>
                     </div>
                 </div>
             </div>
@@ -532,7 +586,7 @@
         </div>
 
         <!-- Rodapé Institucional -->
-        <footer class="mt-24">
+        <footer class="mt-24 text-white">
             <div class="bg-slate-200/40 backdrop-blur-sm p-8 md:p-12 rounded-[2rem] border border-slate-200 shadow-inner relative overflow-hidden text-center sm:text-left">
                 <!-- SVG Decorativo em BG -->
                 <div class="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
@@ -549,7 +603,7 @@
                 </h5>
                 
                 <div class="grid md:grid-cols-2 gap-12 relative z-10">
-                    <div class="bg-white/50 p-6 rounded-3xl border border-white/60 shadow-sm">
+                    <div class="bg-white/50 p-6 rounded-3xl border border-white/60 shadow-sm text-slate-900">
                         <p class="font-black text-slate-900 text-[10px] mb-6 uppercase tracking-widest text-blue-700">Equipe Técnica e Autoria</p>
                         <ul class="space-y-4 text-[10px] md:text-xs font-medium text-left">
                             <li class="flex flex-col">
